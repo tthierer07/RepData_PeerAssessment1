@@ -136,7 +136,11 @@ int_steps_day <- function(interval){
 weekday_steps <- sapply(intervals, int_steps_day)
 ```
 ```{r}
-par(mfrow = c(2,1))
-plot(intervals, weekend_steps, type = "l")
-plot(intervals, weekday_steps, type = "l")
+library(lattice)
+WEEKEND <- data.frame("Date" = "Weekend", "Steps" = weekend_steps, "Interval" = intervals)
+WEEKDAY <- data.frame("Date" = "Weekday", "Steps" = weekday_steps, "Interval" = intervals)
+WEEK <- rbind(WEEKEND, WEEKDAY)
+xyplot(Steps~Interval | Date, data = WEEK, layout = c(1,2), panel = function(x, y, ...){
+        panel.lines(x, y, ...)
+})
 ```
